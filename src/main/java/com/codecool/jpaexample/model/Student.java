@@ -1,6 +1,7 @@
 package com.codecool.jpaexample.model;
 
 import javax.persistence.*;
+/*import java.beans.Transient;*/
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,30 +15,40 @@ public class Student {
     private long id;
 
     private String name;
-
+    @Column (unique = true, nullable = false)
     private String email;
+
+    @ElementCollection
+    @CollectionTable (name = "phone")
+    private List<String> phoneNumbers = new ArrayList<>();
 
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
-
+    @Transient
     private long age;
 
     @OneToOne
     private Address address;
 
+    @ManyToOne
+    private Klass klass;
+
     public Student() {
     }
 
-    public Student(String name, String email, Date dateOfBirth) {
+    public Student(String name, String email, Date dateOfBirth, String phoneNumbers, Klass klass) {
         this.name = name;
         this.email = email;
+        this.phoneNumbers.add(phoneNumbers);
         this.dateOfBirth = dateOfBirth;
         this.age = (Calendar.getInstance().getTimeInMillis() - dateOfBirth.getTime())
                 / (60L * 60L * 1000L * 24L * 365L);
+        this.klass = klass;
+
     }
 
-    public Student(String name, String email, Date dateOfBirth, Address address) {
-        this(name, email, dateOfBirth);
+    public Student(String name, String email, Date dateOfBirth, Address address, String phoneNumbers, Klass klass) {
+        this(name, email, dateOfBirth, phoneNumbers, klass);
         this.address = address;
     }
 
