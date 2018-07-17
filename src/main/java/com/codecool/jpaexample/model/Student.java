@@ -1,7 +1,6 @@
 package com.codecool.jpaexample.model;
 
 import javax.persistence.*;
-/*import java.beans.Transient;*/
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -26,7 +25,6 @@ public class Student {
     private Date dateOfBirth;
     @Transient
     private long age;
-
     @OneToOne
     private Address address;
 
